@@ -1,0 +1,71 @@
+Data:
+The Image: 2D Arrays
+Saving/loading images: File IO
+Choice to continue and menu options: Programming Basics
+Image data: Variables
+Image data manipulation: Formatted IO
+Using Menu Options: Functions
+Information through Functions: Pass By Address
+Use of multiple instances and decisions: Iteration and Selection
+
+
+
+Image Manipulation:
+The program should operate with the conditions of images and use the data given from images to manipulate the image in different ways chosen by the user. These changes vary from dimming, brightening, rotating and cropping these images. The function should also display to the user the change they have selected to do on the image that they have loaded or the current image on the program as well as whether or not they would like to save the image the way it is. The program should also ask the user whether or not they would like to continue with the image processing.
+
+
+main ():
+Data: Image 2D array. Variables for changing the value of the image.
+Functionality: Load a file of data or use the current data in which the program is linked. Use selection to determine a choice to determine a function for the user. If the user chooses to edit, load, display or exit the program, the main will determine it and jump into the corresponding program as well as display the options within edit.
+
+
+displayMenu(): 
+Input Parameters: None
+Returned Output: User Choice in the Menu
+Functionality: Display the menu options such as Edit, Display Image, Exit, Load Image to the screen. Allow the user to pick a choice.
+
+
+arrayCount():
+Input Parameters: FILE Pointer, 2D array, Rows Count pointer, Columns Count pointer
+Returned Output: 2D array and the pointers back to the main
+Functionality: This function should count all of the characters within the image as well as store them in a 2D array before the user has selected to edit the image. 
+
+
+
+
+
+
+dim()
+Input Parameters: 2D array, rows, count  and columns variables
+Returned Output: All of the values going down one value in the 2D array corresponding to the chart of dimming an image in this program
+Functionality: All of the values in the 2D array should be one lower than before in the image brightness and displayed to the user. This would be done by iterating through each line of the 2D array and changing the value of the data stored in each line by one degree according to the brightness chart provided. Display to the user.
+
+
+brighten()
+Input Parameters: 2D array, rows, count  and columns variables
+Returned Output: Brightened 2D array with each value being brighter than the previous image.
+Functionality: All of the values in the 2D array should be one higher than before in the image brightness and displayed to the user. This would be done by iterating through each line of the 2D array and changing the value of the data stored in each line by one degree according to the brightness chart provided. Display it to the user.
+
+
+
+crop()
+Input Parameters: 2D array, rows, count and columns variables
+Returned Output: One less column and row on each side of the 2D array.
+Functionality: This function should take the 2D array and manipulate it by taking out the first column and last column as well as the first row and last row of the image. You would iterate through these lines and take out their values. Display it to the user.
+
+
+
+
+
+rotate()
+Input Parameters: 2D array, rows, count and columns variables
+Returned Output: Another 2D array rotated 90 degrees
+Functionality: This function would operate by turning the rows into columns in reverse order as well as turning the columns into rows in reverse order. This would require iterating through each row and column and storing their index in reverse order as to rotate the image 90 degrees. Display it to the user.
+
+
+
+save()
+Input Parameters: 2D array, File Pointer
+Returned Output: A 2D array saved to a file
+Functionality: This function would write the 2D array that has been manipulated throughout the entire function to a file in which the user is able to use later in the function. This function should return to the beginning of the program where the menu was first displayed.
+
