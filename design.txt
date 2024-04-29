@@ -1,0 +1,63 @@
+Design Document
+DATA
+	Image
+	Crop: Image size
+	Load image: Image file, file pointers
+	Menu: Switch or if statements, selection, iteration
+	Dim/Brighten: image values, functions for adding or subtracting
+	Rotate: Image position, function to rotate image
+FUNCTIONS
+	main(){
+		Data: Will contain all necessary functions needed to run the program. Will 
+contain a menu function, as well as functions for each of the possible choices.
+		Functionality: This will be where the user inputs their choices as to what they 			want to do with the image. The main will contain all needed functions and will 			only end when the user decides they are done.
+	cropImage(){
+		Input Parameters: int height, int length, char image[][height]
+		Returned Output:none
+		Functionality: This function will be used to crop the image. The user will be 
+input on how they would like to crop the image then the program will chop the
+image to the desired length. This will be followed by the saveImage function.
+	dimImage(){
+		Input Parameters: int height, int rows, char[][height]
+		Returned Output:char image[][height]
+		Functionality:this function will take all of the values from the file and subtract 			one from them. It will then save this to the 2d array image, not the file. We will 			also display the image to see if the user would like to further dim the image or not
+	brightenImage(){
+		Input Parameters:int height, int rows, char image[][height]
+		Returned Output:char[][height]
+		Functionality:This function will act the same as the dim image function, only it 			brighten the image instead.
+	saveImage(){
+		Input Parameters:int height, int rows, char image[][height], File pointer
+		Returned Output:none
+		Functionality: This function will take the new values that are stored in the 				image array and will transfer them into the file containing the image. It 
+will append the file and overwrite all the previous values.
+	rotateImage(){
+		Input Parameters:int height, int rows, char image[][height]
+		Returned Output: char image[][height]
+		Functionality: This function will rotate the image. We will need to use 
+expressions move the coordinates from each space 90 degrees either clockwise or counter clockwise
+	openImage(){
+		Input Parameters: File pointer, 
+		Returned Output:None
+		Functionality: This function is responsible for opening the file that contains the 
+		Image and connecting with it. If the file cannot be connected with it will print a 			statement saying so.
+	menuChoice(){
+		Input Parameters: None
+		Returned Output: char choice
+		Functionality: This function will act as a menu that will display the user with 			a list of things they can do to the image. The menu function will get the choice of 
+		the user and will then decide which path the program will go down. The menu 
+		is also responsible for closing the program. 
+	getImageSize(){
+			Input Parameters:File pointer
+			Returned Output:int height, int length
+			Functionality:This function will be responsible for determining the size 
+of the image. It will count the number of rows and the number of columns
+			and save that data to be used in the future.
+	arrayImage(){
+		Input Parameters:File pointer, int length, int height
+		Returned Output: char image[][height]
+		Functionality:This function will be used to save the values from the file into a 			2D array so that we can manipulate the values and use them later.
+	displayImage(){
+		Input Parameters: File pointer, int length, int height, char image[][height]
+		Returned Output:none
+		Functionality:This function will be responsible for converting the values of the 			file to the image displayed on the screen. It will convert the number values in the 			file to their corresponding character values.
+
