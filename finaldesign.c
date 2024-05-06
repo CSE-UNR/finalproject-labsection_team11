@@ -1,88 +1,141 @@
 //Henry Jones//
+//Jordan Perone//
 //Final Project//
 #include <stdio.h>
-void connectFile(char* filename,int* length, int* width);
-char getArray(char *filename, int length, int width, char array[][width]);
-int getWidth(FILE * fp);
-int getLength(FILE * fp);
+void connectFile(char filename[],int* length, int* width);
+int arrayFile(char filename[],int rows, int column, int arrayF[][column]);
+
 void displayImage(int length, int width, char array[][width]);
 void brightenImage(int length, int width, char array[][width]);
 void dimImage(int length, int width, char array[][width]);
 void cropImage(int length, int width, char array[][width]);
 void saveImage(int length, int width, char array[][width], char* filename);
-char menuChoice(char choice1);
-char editOptions(char editChoice);
+
+int menuChoice();
+int editOptions();
 
 int main(){
 	char choice1, editChoice;
 	char filename[30];
-	int length;
-	int width;
-	char array[length][width];
-	connectFile(filename, &length, &width);
+	int rows, uChoice, cols;
 	
-	printf("width: %d, length:%d\n",width, length);
-	getArray(filename,length,width,array);
-	displayImage(length,width,array);
+	
+	
+	uChoice = menuChoice();
+	
+	if(uChoice == 1){
+	
+		connectFile(filename, &cols, &rows);
+	
+	
+		printf("%d", rows);
+		printf("%d", cols);
+	
+		int arrayF[rows][cols];
+	
+		arrayFile(filename, rows, cols, arrayF);
+		
+		for(int idxR = 0; idxR < rows; idxR++){
+			for(int idxC = 0; idxC < cols; idxC++){
+				printf("%d", arrayF[idxR][idxC]);
+		printf("h");
+			}
+		printf("\n");
+		}
+	
+	
+	}else if(uChoice == 2){
+	
+	
+	
+	
+	}else if(uChoice == 3){
+	
+	
+	editOptions();
+	
+	}else{
+	
+	printf("\nGoodbye!");
+	return 0;
+	
+	}
+	
+	
+	
 
 return 0;
 }
-void connectFile(char* filename,int* length, int* width){
-	printf("Enter the file name\n");
+void connectFile(char filename[], int* length, int* width){
+	char tempC [500], tempU;
+	int col = 0, row = 0;
+	int index = 0;
+	int count = 0;
+	
+	
+	printf("What is the name of the image file? ");
 	scanf("%s", filename);
-	FILE * fp = fopen(filename, "r");
+	FILE* fp = fopen(filename, "r");
+	
+	
 	if( fp == NULL){
-		printf("Can't open file\n");
+		printf("\nCan't open file\n");
 	}
 	else{
-		printf("Image found\n");
-	*width = getWidth(fp);
-	*length = getLength(fp);
-	fclose(fp);
-}
-}
-int getLength(FILE * fp) {
-	int length = 0;
-	char a;
-	while (fscanf(fp, "%c", &a) == 1) {
-		if (a == '\n') { 
-			length++;
-		}
+		printf("\nImage successfully loaded!\n");
+	
 	}
-	rewind(fp);
-	return length + 1;
-}
-int getWidth(FILE * fp){
-	int width = 0;
-	char c;
-	while(fscanf(fp, "%c", &c) == 1){
-		if(c == '\n'){
-			break;
-		}
-		else{ 
-			width++;
-		}
-	}
-		rewind(fp);
-	return width + 1;
-}
-char getArray(char* filename, int length, int width, char array[][width]){
-	FILE * fp = fopen(filename, "r");
-	if( fp == NULL){
-		printf("Can't open file\n");
-	}
-	else{
-		printf("connected\n");
-		for(int i = 0; i < length; i++){
-			for(int j = 0; j < width; j++){
-				fscanf(fp, "%c", &array[i][j]);
-			}
+	while(fscanf(fp, "%c", &tempC[index]) == 1){
+		tempU = tempC[index];
+		
+		printf(" %c", tempU);
+		if(tempU == '\n'){
+			count++;
+			row++;
+		}else if(count < 1){
+			
+		col++;
 			
 		}
+		index++;
 	}
+	
+	col--;
+	row++;
+	
+	*length = col;
+	*width = row;
+	
 	fclose(fp);
-	printf("\n");
-	return array[length][width];
+}
+int arrayFile(char filename[],int rows, int column, int arrayF[][column]){
+	
+	int temp=0;
+	
+	FILE* fp = fopen(filename, "r");
+	
+	
+	if( fp == NULL){
+		printf("\nCan't open file\n");
+	}
+	else{
+		printf("\nImage successfully loaded!\n");
+	
+	}
+
+	for(int idxR = 0; idxR < rows; idxR++){
+		for(int idxC = 0; idxC < column; idxC++){
+			if(fscanf(fp,"%d", &temp) == 1){
+			arrayF[idxR][idxC] = temp;
+			}
+		printf("h");
+		printf("\n");
+		}
+	}
+
+	fclose(fp);
+
+
 }
 void displayImage(int length, int width, char array[][width]){
 	for(int i = 0; i < length; i++){
@@ -230,26 +283,26 @@ void saveImage(int length, int width, char array[][width], char* filename){
 		}
 	}
 }
-char menuChoice(char choice1){
+int menuChoice(){
+	int choice1 = 0;
 	printf("Welcome to photo editor, what would you like to do\n");
-	printf("[O]pen image\n");
-	printf("[E]dit image\n");
-	printf("[V]iew image\n");	
-	printf("[Q]uit\n");	
+	printf("[1] Load image\n");
+	printf("[2] Edit image\n");
+	printf("[3] Display image\n");	
+	printf("[0] Exit\n");	
 	printf("Please enter your choice: \n");
-	scanf(" %c", &choice1);
-	if (choice1 == 'Q'){
-		choice1 = 'q';
-	}
+	scanf("%d", &choice1);
 	return choice1;
 }
-char editOptions(char editChoice){
+int editOptions(){
+	int editChoice;
+	
 	printf("How would you like to edit the image\n");
-	printf("[D]im image\n");
-	printf("[B]righten image\n");
-	printf("[C]rop image\n");	
-	printf("[Q]uit\n");	
+	printf("[1] Dim image\n");
+	printf("[2] Brighten image\n");
+	printf("[3] Crop image\n");	
+	printf("[0] Exit\n");	
 	printf("Please enter your choice: \n");
-	scanf(" %c", &editChoice);
+	scanf("%d", &editChoice);
 	return editChoice;
 }
