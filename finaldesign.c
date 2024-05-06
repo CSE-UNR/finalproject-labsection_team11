@@ -32,18 +32,12 @@ int main(){
 		printf("%d", cols);
 	
 		int arrayF[rows][cols];
-	
 		arrayFile(filename, rows, cols, arrayF);
-		
-		for(int idxR = 0; idxR < rows; idxR++){
-			for(int idxC = 0; idxC < cols; idxC++){
-				printf("%d", arrayF[idxR][idxC]);
-		printf("h");
-			}
-		printf("\n");
+		for(int idxR = 0; idxR < rows - 20; idxR++){
+			for(int idxC = 0; idxC < cols - 20; idxC++){
+				printf("%c", arrayF[idxR][idxC]);
 		}
-	
-	
+	}
 	}else if(uChoice == 2){
 	
 	
@@ -125,11 +119,9 @@ int arrayFile(char filename[],int rows, int column, int arrayF[][column]){
 
 	for(int idxR = 0; idxR < rows; idxR++){
 		for(int idxC = 0; idxC < column; idxC++){
-			if(fscanf(fp,"%d", &temp) == 1){
-			arrayF[idxR][idxC] = temp;
+			while(fscanf(fp,"%c", &arrayF[idxR][idxC]) == 1){
+				printf(" %c", arrayF[idxR][idxC]);
 			}
-		printf("h");
-		printf("\n");
 		}
 	}
 
