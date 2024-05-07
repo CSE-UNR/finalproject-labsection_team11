@@ -2,14 +2,15 @@
 //Jordan Perone//
 //Final Project//
 #include <stdio.h>
-void connectFile(char filename[],int* length, int* width);
-int arrayFile(char filename[],int rows, int column, int arrayF[][column]);
+#define MAX 150
+void connectFile(char filename[],int* rows, int* cols);
+int arrayFile(char filename[],int rows, int cols, char arrayF[][MAX]);
 
-void displayImage(int length, int width, char array[][width]);
-void brightenImage(int length, int width, char array[][width]);
-void dimImage(int length, int width, char array[][width]);
-void cropImage(int length, int width, char array[][width]);
-void saveImage(int length, int width, char array[][width], char* filename);
+void displayImage(int rows, int cols, char arrayF[][MAX]);
+void brightenImage(int rows, int cols, char arrayF[][MAX]);
+void dimImage(int rows, int cols, char arrayF[][MAX]);
+void cropImage(int rows, int cols, char arrayF[][MAX]);
+void saveImage(int rows, int cols, char arrayF[][MAX], char* filename);
 
 int menuChoice();
 int editOptions();
@@ -18,35 +19,51 @@ int main(){
 	char choice1, editChoice;
 	char filename[30];
 	int rows, uChoice, cols;
-	
-	
-	
+	uChoice = 1;
+	char arrayF[MAX][MAX];
+
+	while( uChoice != 0){
 	uChoice = menuChoice();
 	
 	if(uChoice == 1){
 	
 		connectFile(filename, &cols, &rows);
-	
-	
-		printf("%d", rows);
-		printf("%d", cols);
-	
-		int arrayF[rows][cols];
 		arrayFile(filename, rows, cols, arrayF);
-		for(int idxR = 0; idxR < rows - 20; idxR++){
-			for(int idxC = 0; idxC < cols - 20; idxC++){
+		for (int idxR = 0; idxR < rows; idxR++) {
+			for (int idxC = 0; idxC < cols; idxC++) {
 				printf("%c", arrayF[idxR][idxC]);
+			}
 		}
-	}
 	}else if(uChoice == 2){
+	char editChoice;
+	editChoice = editOptions();
+		while (editChoice != 0){
+		if(editChoice == 1){
+			dimImage(cols,rows, arrayF);
+			displayImage(rows,cols,arrayF);
+			editChoice = 0;
+		}
+		else if (editChoice == 2){
+		brightenImage(rows, cols, arrayF);
+		displayImage(rows,cols,arrayF);
+		editChoice = 0;
+		}
+		else if (editChoice == 3){
+		cropImage(rows, cols, arrayF);
+		displayImage(rows,cols,arrayF);
+		}
+		else if (editChoice == 4){
+		
+		}
+		if (editChoice == 0){
+		
+		}
 	
-	
-	
-	
+	}
 	}else if(uChoice == 3){
+		displayImage(rows,cols,arrayF);
 	
 	
-	editOptions();
 	
 	}else{
 	
@@ -54,17 +71,18 @@ int main(){
 	return 0;
 	
 	}
-	
+	}
 	
 	
 
 return 0;
 }
-void connectFile(char filename[], int* length, int* width){
+void connectFile(char filename[], int* rows, int* cols){
 	char tempC [500], tempU;
-	int col = 0, row = 0;
+	int col = 0;
 	int index = 0;
 	int count = 0;
+	int i = 0, j = 0;
 	
 	
 	printf("What is the name of the image file? ");
@@ -80,32 +98,27 @@ void connectFile(char filename[], int* length, int* width){
 	
 	}
 	while(fscanf(fp, "%c", &tempC[index]) == 1){
-		tempU = tempC[index];
-		
-		printf(" %c", tempU);
-		if(tempU == '\n'){
-			count++;
-			row++;
-		}else if(count < 1){
-			
-		col++;
-			
+		if(tempC[index] == '\n'){
+			(*rows)++;
+			count = 0;
 		}
-		index++;
+		if (col < count){
+				col = count;
+			}
+	count++;
+	index++;
 	}
-	
-	col--;
-	row++;
-	
-	*length = col;
-	*width = row;
+	*cols = col;
+	(*rows)++;
+	i = *cols;
+	j = *rows;
+	*cols = j;
+	*rows = i;
 	
 	fclose(fp);
 }
-int arrayFile(char filename[],int rows, int column, int arrayF[][column]){
-	
-	int temp=0;
-	
+int arrayFile(char filename[],int rows, int cols, char arrayF[][MAX]){
+	printf("%d, %d", rows, cols);
 	FILE* fp = fopen(filename, "r");
 	
 	
@@ -116,23 +129,23 @@ int arrayFile(char filename[],int rows, int column, int arrayF[][column]){
 		printf("\nImage successfully loaded!\n");
 	
 	}
-
-	for(int idxR = 0; idxR < rows; idxR++){
-		for(int idxC = 0; idxC < column; idxC++){
-			while(fscanf(fp,"%c", &arrayF[idxR][idxC]) == 1){
-				printf(" %c", arrayF[idxR][idxC]);
-			}
+		for (int idxR = 0; idxR < rows; idxR++) {
+			for (int idxC = 0; idxC < cols; idxC++) {
+				fscanf(fp, "%c", &arrayF[idxR][idxC]);
+				
+            		}	
+		}
+	for (int idxR = 0; idxR < rows; idxR++) {
+		for (int idxC = 0; idxC < cols; idxC++) {
+			printf("%c", arrayF[idxR][idxC]);
 		}
 	}
-
 	fclose(fp);
-
-
 }
-void displayImage(int length, int width, char array[][width]){
-	for(int i = 0; i < length; i++){
-		for(int j = 0; j < width; j++){
-			switch (array[i][j]){
+void displayImage(int rows, int cols, char arrayF[][MAX]){
+	for(int i = 0; i < rows; i++){
+		for(int j = 0; j < cols; j++){
+			switch (arrayF[i][j]){
 				case '0':
 					printf(" ");
 					break;
@@ -155,30 +168,29 @@ void displayImage(int length, int width, char array[][width]){
 		}
 	}
 }
-void brightenImage(int length, int width, char array[][width]){
-	for(int i = 0; i < length; i++){
-		for(int j = 0; j < width; j++){
-			if(array[i][j] == 48 || array[i][j] == 49 || array[i][j] == 50 || array[i][j] == 51 ){
-				array[i][j] + 1;
+void brightenImage(int rows, int cols, char arrayF[][MAX]){
+	for(int i = 0; i < rows; i++){
+		for(int j = 0; j < cols; j++){
+			if(arrayF[i][j] == 48 || arrayF[i][j] == 49 || arrayF[i][j] == 50 || arrayF[i][j] == 51 ){
+				arrayF[i][j] + 1;
 			}
 		}
 	}
 }
-void dimImage(int length, int width, char array[][width]){
-	for(int i = 0; i < length; i++){
-		for(int j = 0; j < width; j++){
-			if(array[i][j] == 52 || array[i][j] == 49 || array[i][j] == 50 || array[i][j] == 51 ){
-				array[i][j] - 1;
+void dimImage(int rows, int cols, char arrayF[][MAX]){
+	for(int i = 0; i < rows; i++){
+		for(int j = 0; j < cols; j++){
+			if(arrayF[i][j] > '0' && arrayF[i][j] < '5') {
+				arrayF[i][j]--;
 			}
 		}
 	}
 }
-void cropImage(int length, int width, char array[][width]){
+void cropImage(int rows, int cols, char arrayF[][MAX]){
 	int top, bottom, left, right;
 	char choice;
-	char topAxis[width + 1];
-	printf(" ");
-	for(int h = 0; h < width + 1; h++){
+	char topAxis[cols + 1];	
+	for(int h = 0; h <= cols + 1; h++){
 		if( 0 == h % 4){
 			printf("%d", h);
 		}
@@ -189,14 +201,9 @@ void cropImage(int length, int width, char array[][width]){
 		}
 	}
 	printf("\n");
-	for(int i = 0; i < length; i++){
-		if(i % 4 == 0){
-			printf("%d", i);
-		} else{
-			printf(" ");
-		}
-		for(int j = 0; j < width; j++){
-			switch (array[i][j-1]){
+	for(int i = 0; i < rows; i++){
+		for(int j = 0; j < cols; j++){
+			switch (arrayF[i][j]){
 				case '0':
 					printf(" ");
 					break;
@@ -212,19 +219,27 @@ void cropImage(int length, int width, char array[][width]){
 				case '4':
 					printf("0");
 					break;
-			}
+				case '\n':
+					if(i % 4 == 0){
+					printf("\n%d", i);
+					}
+					else{
+						printf("\n");
+					}
+					break;
+			}	
 		}
-		printf("\n");
 	}
 	printf("where would you like your top left corner to be(enter 2 numbers seperated by a space, enter the height first then how far left )\n");
 	scanf("%d %d", &top, &left);
 	printf("where would you like your bottom right corner to be(enter 2 numbers seperated by a space, enter the height first then how far right )\n");
 	scanf("%d %d", &bottom, &right);
-	for(int i = 0; i < length; i++){
-		if(i >= top && i <= bottom){
-			for(int j = 0; j < width; j++){
-				if(j >= left && j <= right){
-					switch (array[i][j]){
+	int iCount = 0;
+	int t;
+	for(int i = top; i <+ bottom; i++){
+			for(int j = left; j <= right; j++){
+					t = j - iCount;
+					switch (arrayF[i][t]){
 						case '0':
 							printf(" ");
 							break;
@@ -240,21 +255,28 @@ void cropImage(int length, int width, char array[][width]){
 						case '4':
 							printf("0");
 							break;
+						case '\n':
+							printf("\n");
+						break;
 					}
 				}
-			}
+			iCount++;
 			printf("\n");
-		}
-		
-	}
+			}
+			
+			
+				
+					
+			
+	
 	printf("keep changes?\n");
-	scanf("%c", &choice);
+	scanf(" %c", &choice);
 	if (choice == 'y' || choice == 'Y'){
-	for(int i = 0; i < length; i++){
+	for(int i = 0; i < rows; i++){
 		if(i < top || i > bottom){
-			for(int j = 0; j < width; j++){
+			for(int j = 0; j < cols; j++){
 				if(j < left || j > right){
-					array[i][j] == '0';
+					arrayF[i][j] == '0';
 					}
 				}
 			}
@@ -262,15 +284,15 @@ void cropImage(int length, int width, char array[][width]){
 	}
 }
 
-void saveImage(int length, int width, char array[][width], char* filename){
+void saveImage(int rows, int cols, char arrayF[][MAX], char* filename){
 	FILE * fp = fopen(filename, "w");
 	char choice;
 	printf("Would you like to save the image?\n");
 	scanf(" %c", &choice);
 	if(choice == 'y' || choice == 'Y'){
-		for(int i = 0; i < length; i++){
-			for(int j = 0; j < width; j++){
-				fprintf(fp, " %c", array[i][j]);
+		for(int i = 0; i < rows; i++){
+			for(int j = 0; j < cols; j++){
+				fprintf(fp, " %c", arrayF[i][j]);
 			}
 		}
 	}
