@@ -179,6 +179,14 @@ void brightenImage(int rows, int cols, char arrayF[][MAX], char filename[]){
 	scanf(" %c", &choice3);
 	if(choice3 == 'y' || choice3 == 'Y'){
 		saveImage(rows, cols, arrayF, filename);
+	}else{
+		for(int i = 0; i < rows; i++){
+			for(int j = 0; j < cols; j++){
+				if(arrayF[i][j] >= 49 && arrayF[i][j] <= 52) {
+					arrayF[i][j]--;
+				}
+			}
+		}
 	}
 }
 void dimImage(int rows, int cols, char arrayF[][MAX], char filename[]){
@@ -195,6 +203,14 @@ void dimImage(int rows, int cols, char arrayF[][MAX], char filename[]){
 	scanf(" %c", &choice3);
 	if(choice3 == 'y' || choice3 == 'Y'){
 		saveImage(rows, cols, arrayF, filename);
+	}else{
+		for(int i = 0; i < rows; i++){
+			for(int j = 0; j < cols; j++){
+				if(arrayF[i][j] >= 48 && arrayF[i][j] < 52 ){
+					arrayF[i][j]++;
+				}
+			}
+		}
 	}
 }
 void cropImage(int rows, int cols, char arrayF[][MAX], char filename[]){
