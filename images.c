@@ -166,9 +166,11 @@ void displayImage(int rows, int cols, char arrayF[][MAX]){
 	}
 }
 void brightenImage(int rows, int cols, char arrayF[][MAX], char filename[]){
+	char brightArray[MAX][MAX];
 	for(int i = 0; i < rows; i++){
 		for(int j = 0; j < cols; j++){
 			if(arrayF[i][j] >= 48 && arrayF[i][j] < 52 ){
+				brightArray[i][j] = arrayF[i][j];
 				arrayF[i][j]++;
 			}
 		}
@@ -182,18 +184,18 @@ void brightenImage(int rows, int cols, char arrayF[][MAX], char filename[]){
 	}else{
 		for(int i = 0; i < rows; i++){
 			for(int j = 0; j < cols; j++){
-				if(arrayF[i][j] >= 49 && arrayF[i][j] <= 52) {
-					arrayF[i][j]--;
-				}
+				arrayF[i][j] = brightArray[i][j];
 			}
 		}
 	}
 }
 void dimImage(int rows, int cols, char arrayF[][MAX], char filename[]){
 	char choice3;
+	char dimArray[MAX][MAX];
 	for(int i = 0; i < rows; i++){
 		for(int j = 0; j < cols; j++){
 			if(arrayF[i][j] >= 49 && arrayF[i][j] <= 52) {
+				dimArray[i][j] = arrayF[i][j];
 				arrayF[i][j]--;
 			}
 		}
@@ -206,9 +208,7 @@ void dimImage(int rows, int cols, char arrayF[][MAX], char filename[]){
 	}else{
 		for(int i = 0; i < rows; i++){
 			for(int j = 0; j < cols; j++){
-				if(arrayF[i][j] >= 48 && arrayF[i][j] < 52 ){
-					arrayF[i][j]++;
-				}
+					arrayF[i][j] = dimArray[i][j];
 			}
 		}
 	}
